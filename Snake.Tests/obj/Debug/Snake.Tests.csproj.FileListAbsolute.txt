@@ -1,0 +1,7 @@
+C:\Users\Ash\Desktop\Snake\Snake.Tests\bin\Debug\Snake.Tests.dll
+C:\Users\Ash\Desktop\Snake\Snake.Tests\bin\Debug\Snake.Tests.pdb
+C:\Users\Ash\Desktop\Snake\Snake.Tests\obj\Debug\Snake.Tests.csprojResolveAssemblyReference.cache
+C:\Users\Ash\Desktop\Snake\Snake.Tests\obj\Debug\Snake.Tests.dll
+C:\Users\Ash\Desktop\Snake\Snake.Tests\obj\Debug\Snake.Tests.pdb
+C:\Users\Ash\Desktop\Snake\Snake.Tests\bin\Debug\Snake.exe
+C:\Users\Ash\Desktop\Snake\Snake.Tests\bin\Debug\Snake.pdb
