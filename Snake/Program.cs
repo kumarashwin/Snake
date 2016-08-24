@@ -19,24 +19,77 @@ namespace Snake
     {
         Left,
         Right,
-        Straight
+        Straight,
+        Unassigned
     }
 
-    class Program
+    static class Program
     {
         static void Main(string[] args)
         {
-            int width = 10;
-            int height = 10;
+            World world = new World(30, 20);
+            Snake snake = new Snake(new Vector(3, 3), Directions.East);
 
-            World world = new World(width, height);
-            Snake snake = new Snake(new Vector(3, 3));
-            //while (true)
-            //{
-            //    snake.Move(Command.Left);
-            //    world.Render(snake);
-            //    Thread.Sleep(1000);
-            //}
+            while (true)
+            {
+                world.Render(snake);
+                snake.ProcessCommands();
+                snake.Move();
+            }
+        }
+
+        private static void ProcessCommands(this Snake snake)
+        {
+            //Sets future time at which loop to read keys ends and,
+            //at which point, the snake performs the action and
+            //the Console renders.
+            var timeLimit = DateTime.Now.Add(snake.Speed);
+
+            do
+            {
+                if (snake.NextMove == Command.Unassigned)
+                {
+                    while (!Console.KeyAvailable)
+                    {
+                        if (!TimeLeft(timeLimit))
+                        {
+                            break;
+                        }
+                    }
+
+                    if (!TimeLeft(timeLimit))
+                    {
+                        break;
+                    }
+
+                    //Check and process keypress
+                    switch (Console.ReadKey(true).Key)
+                    {
+                        case ConsoleKey.LeftArrow:
+                            snake.NextMove = Command.Left;
+                            break;
+                        case ConsoleKey.RightArrow:
+                            snake.NextMove = Command.Right;
+                            break;
+                    }
+                }
+
+            } while (TimeLeft(timeLimit)); //While amount of time isn't finished
+
+            FlushReadKeyStream();
+        }
+
+        private static void FlushReadKeyStream()
+        {
+            while (Console.KeyAvailable)
+            {
+                Console.ReadKey(true);
+            }
+        }
+
+        private static bool TimeLeft(DateTime timeLimit)
+        {
+            return timeLimit > DateTime.Now ? true : false;
         }
     }
 

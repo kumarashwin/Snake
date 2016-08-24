@@ -11,6 +11,8 @@ namespace Snake
         public Vector Head { get { return Parts.First(); } }
         public List<Vector> Parts { get; set; }
         public Directions LastDirection { get; set; }
+        public Command NextMove { get; set; }
+        public TimeSpan Speed { get; set; }
         public static Dictionary<Directions, Vector> DirectionToVector { get; private set; }
 
         static Snake()
@@ -22,11 +24,13 @@ namespace Snake
                 { Directions.West, new Vector(-1, 0) }};
         }
 
-        public Snake(Vector vector)
+        public Snake(Vector vector, Directions startDirection = Directions.South)
         {
             vector.Value = "O";
             Parts = new List<Vector>() { vector };
-            LastDirection = Directions.South;
+            LastDirection = startDirection;
+            NextMove = Command.Unassigned;
+            Speed = new TimeSpan(0, 0, 0, 0, 3000);
         }
 
         public void Propogate(Vector destination)
@@ -40,13 +44,13 @@ namespace Snake
             }
         }
 
-        public void Move(Command command = Command.Straight)
+        public void Move()
         {
             Vector currentPosition = new Vector(Head.X, Head.Y);
 
             Directions destinationDirection = LastDirection;
 
-            if (command == Command.Left)
+            if (NextMove == Command.Left)
             {
                 switch (LastDirection)
                 {
@@ -66,7 +70,7 @@ namespace Snake
                         break;
                 }
             }
-            else if (command == Command.Right)
+            else if (NextMove == Command.Right)
             {
                 switch (LastDirection)
                 {
@@ -85,6 +89,12 @@ namespace Snake
                     default:
                         break;
                 }
+            }
+
+            NextMove = Command.Unassigned;
+            if (Speed.TotalMilliseconds > 200)
+            {
+                Speed -= new TimeSpan(0, 0, 0, 0, 200);
             }
 
             Head.Add(DirectionToVector[destinationDirection]);
