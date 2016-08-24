@@ -140,6 +140,89 @@ namespace Snake.Tests
             }
         }
 
+        [TestMethod]
+        public void MoveRightFromEast()
+        {
+            Snake snake = new Snake(new Vector(2, 2));
+            snake.Parts.Add(new Vector(1, 2));
+            snake.Parts.Add(new Vector(1, 1));
+            snake.LastDirection = Directions.East;
+
+            Snake expected = new Snake(new Vector(2, 3));
+            expected.Parts.Add(new Vector(2, 2));
+            expected.Parts.Add(new Vector(1, 2));
+            expected.LastDirection = Directions.South;
+
+            snake.Move(Command.Right);
+
+            for (int i = 0; i < snake.Parts.Count; i++)
+            {
+                Assert.AreEqual(expected.Parts[i], snake.Parts[i]);
+            }
+        }
+
+        [TestMethod]
+        public void MoveLeftFromEast()
+        {
+            Snake snake = new Snake(new Vector(2, 2));
+            snake.Parts.Add(new Vector(1, 2));
+            snake.Parts.Add(new Vector(1, 1));
+            snake.LastDirection = Directions.East;
+
+            Snake expected = new Snake(new Vector(2, 1));
+            expected.Parts.Add(new Vector(2, 2));
+            expected.Parts.Add(new Vector(1, 2));
+            expected.LastDirection = Directions.North;
+
+            snake.Move(Command.Left);
+
+            for (int i = 0; i < snake.Parts.Count; i++)
+            {
+                Assert.AreEqual(expected.Parts[i], snake.Parts[i]);
+            }
+        }
+
+        [TestMethod]
+        public void MoveRightFromWest()
+        {
+            Snake snake = new Snake(new Vector(2, 2));
+            snake.Parts.Add(new Vector(3, 2));
+            snake.Parts.Add(new Vector(3, 1));
+            snake.LastDirection = Directions.West;
+
+            Snake expected = new Snake(new Vector(2, 1));
+            expected.Parts.Add(new Vector(2, 2));
+            expected.Parts.Add(new Vector(3, 2));
+            expected.LastDirection = Directions.North;
+
+            snake.Move(Command.Right);
+
+            for (int i = 0; i < snake.Parts.Count; i++)
+            {
+                Assert.AreEqual(expected.Parts[i], snake.Parts[i]);
+            }
+        }
+
+        [TestMethod]
+        public void MoveLeftFromWest()
+        {
+            Snake snake = new Snake(new Vector(2, 2));
+            snake.Parts.Add(new Vector(3, 2));
+            snake.Parts.Add(new Vector(3, 1));
+            snake.LastDirection = Directions.West;
+
+            Snake expected = new Snake(new Vector(2, 3));
+            expected.Parts.Add(new Vector(2, 2));
+            expected.Parts.Add(new Vector(3, 2));
+            expected.LastDirection = Directions.North;
+
+            snake.Move(Command.Left);
+
+            for (int i = 0; i < snake.Parts.Count; i++)
+            {
+                Assert.AreEqual(expected.Parts[i], snake.Parts[i]);
+            }
+        }
 
     }
 }

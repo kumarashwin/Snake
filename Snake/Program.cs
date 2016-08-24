@@ -31,12 +31,12 @@ namespace Snake
 
             World world = new World(width, height);
             Snake snake = new Snake(new Vector(3, 3));
-            while (true)
-            {
-                snake.Move(Command.Left);
-                world.Render(snake);
-                Thread.Sleep(1000);
-            }
+            //while (true)
+            //{
+            //    snake.Move(Command.Left);
+            //    world.Render(snake);
+            //    Thread.Sleep(1000);
+            //}
         }
     }
 
