@@ -69,7 +69,8 @@ namespace Snake.Tests
             expected.Parts.Add(new Vector(1, 2));
             expected.LastDirection = Directions.East;
 
-            snake.Move(Command.Right);
+            snake.NextMove = Command.Right;
+            snake.Move();
 
             for (int i = 0; i < snake.Parts.Count; i++)
             {
@@ -90,7 +91,8 @@ namespace Snake.Tests
             expected.Parts.Add(new Vector(2, 3));
             expected.LastDirection = Directions.West;
 
-            snake.Move(Command.Left);
+            snake.NextMove = Command.Left;
+            snake.Move();
 
             for (int i = 0; i < snake.Parts.Count; i++)
             {
@@ -111,7 +113,8 @@ namespace Snake.Tests
             expected.Parts.Add(new Vector(2, 1));
             expected.LastDirection = Directions.West;
 
-            snake.Move(Command.Right);
+            snake.NextMove = Command.Right;
+            snake.Move();
 
             for (int i = 0; i < snake.Parts.Count; i++)
             {
@@ -132,7 +135,8 @@ namespace Snake.Tests
             expected.Parts.Add(new Vector(2, 1));
             expected.LastDirection = Directions.East;
 
-            snake.Move(Command.Left);
+            snake.NextMove = Command.Left;
+            snake.Move();
 
             for (int i = 0; i < snake.Parts.Count; i++)
             {
@@ -153,7 +157,8 @@ namespace Snake.Tests
             expected.Parts.Add(new Vector(1, 2));
             expected.LastDirection = Directions.South;
 
-            snake.Move(Command.Right);
+            snake.NextMove = Command.Right;
+            snake.Move();
 
             for (int i = 0; i < snake.Parts.Count; i++)
             {
@@ -174,7 +179,8 @@ namespace Snake.Tests
             expected.Parts.Add(new Vector(1, 2));
             expected.LastDirection = Directions.North;
 
-            snake.Move(Command.Left);
+            snake.NextMove = Command.Left;
+            snake.Move();
 
             for (int i = 0; i < snake.Parts.Count; i++)
             {
@@ -195,7 +201,8 @@ namespace Snake.Tests
             expected.Parts.Add(new Vector(3, 2));
             expected.LastDirection = Directions.North;
 
-            snake.Move(Command.Right);
+            snake.NextMove = Command.Right;
+            snake.Move();
 
             for (int i = 0; i < snake.Parts.Count; i++)
             {
@@ -216,7 +223,8 @@ namespace Snake.Tests
             expected.Parts.Add(new Vector(3, 2));
             expected.LastDirection = Directions.North;
 
-            snake.Move(Command.Left);
+            snake.NextMove = Command.Left;
+            snake.Move();
 
             for (int i = 0; i < snake.Parts.Count; i++)
             {
