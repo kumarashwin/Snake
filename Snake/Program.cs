@@ -32,13 +32,15 @@ namespace Snake
 
             int count = 0;
             bool eat = true;
+            Vector destination;
             
 
             while (true)
             {
                 world.Render(snake);
                 snake.ProcessCommands();
-                snake.Move(eat);
+                snake.Destination(out destination);
+                snake.Act(destination, eat);
 
                 if(count > 4)
                 {

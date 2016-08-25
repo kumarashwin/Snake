@@ -34,11 +34,11 @@ namespace Snake
             Speed = new TimeSpan(0, 0, 0, 0, 2000);
         }
 
-        public void Eat(Directions destinationDirection)
+        public void Eat(Vector destination)
         {
-            Vector newHead = new Vector(Head.X, Head.Y, Head.Value);
+            Vector newHead = new Vector(destination.X, destination.Y, Head.Value);
             Head.Value = Body;
-            newHead.Add(DirectionToVector[destinationDirection]);
+
             Parts.Insert(0, newHead);
 
             if (Speed.TotalMilliseconds > 200)
@@ -72,10 +72,8 @@ namespace Snake
         /// Sets the new LastDirection;
         /// Calls Propogate() to have the rest of the body follow;
         /// </summary>
-        public void Move(bool eat = false)
+        public void Destination(out Vector destination)
         {
-            Vector currentPosition = new Vector(Head.X, Head.Y, Body);
-
             Directions destinationDirection = LastDirection;
 
             if (NextMove == Command.Left)
@@ -119,18 +117,27 @@ namespace Snake
                 }
             }
 
-            NextMove = Command.Unassigned;         
+            NextMove = Command.Unassigned;
+            LastDirection = destinationDirection;
 
-            if(eat)
+            destination = new Vector(Head.X, Head.Y);
+            destination.Add(DirectionToVector[destinationDirection]);
+        }
+
+        public void Act(Vector destination, bool eat = false)
+        {
+            Vector prevHeadPosition = new Vector(Head.X, Head.Y, Body);
+
+            if (eat)
             {
-                Eat(destinationDirection);
+                Eat(destination);
             }
             else
             {
-                Head.Add(DirectionToVector[destinationDirection]);
-                Propogate(currentPosition);
+                Head.X = destination.X;
+                Head.Y = destination.Y;
+                Propogate(prevHeadPosition);
             }
-            LastDirection = destinationDirection;
         }
     }
 }
