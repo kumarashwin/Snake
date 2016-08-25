@@ -139,5 +139,59 @@ namespace Snake
                 Propogate(prevHeadPosition);
             }
         }
+
+        public void ProcessCommands()
+        {
+            //Sets future time at which loop to read keys ends and,
+            //at which point, the snake performs the action and
+            //the Console renders.
+            var timeLimit = DateTime.Now.Add(Speed);
+
+            do
+            {
+                if (NextMove == Command.Unassigned)
+                {
+                    while (!Console.KeyAvailable)
+                    {
+                        if (!TimeLeft(timeLimit))
+                        {
+                            break;
+                        }
+                    }
+
+                    if (!TimeLeft(timeLimit))
+                    {
+                        break;
+                    }
+
+                    //Check and process keypress
+                    switch (Console.ReadKey(true).Key)
+                    {
+                        case ConsoleKey.LeftArrow:
+                            NextMove = Command.Left;
+                            break;
+                        case ConsoleKey.RightArrow:
+                            NextMove = Command.Right;
+                            break;
+                    }
+                }
+
+            } while (TimeLeft(timeLimit)); //While amount of time isn't finished
+
+            FlushReadKeyStream();
+        }
+
+        private static void FlushReadKeyStream()
+        {
+            while (Console.KeyAvailable)
+            {
+                Console.ReadKey(true);
+            }
+        }
+
+        private static bool TimeLeft(DateTime timeLimit)
+        {
+            return timeLimit > DateTime.Now ? true : false;
+        }
     }
 }
