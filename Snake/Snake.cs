@@ -9,6 +9,7 @@ namespace Snake
     public class Snake
     {
         public Vector Head { get { return Parts.First(); } }
+        public string Body { get { return "o"; } }
         public List<Vector> Parts { get; set; }
         public Directions LastDirection { get; set; }
         public Command NextMove { get; set; }
@@ -30,9 +31,27 @@ namespace Snake
             Parts = new List<Vector>() { vector };
             LastDirection = startDirection;
             NextMove = Command.Unassigned;
-            Speed = new TimeSpan(0, 0, 0, 0, 3000);
+            Speed = new TimeSpan(0, 0, 0, 0, 2000);
         }
 
+        public void Eat(Directions destinationDirection)
+        {
+            Vector newHead = new Vector(Head.X, Head.Y, Head.Value);
+            Head.Value = Body;
+            newHead.Add(DirectionToVector[destinationDirection]);
+            Parts.Insert(0, newHead);
+
+            if (Speed.TotalMilliseconds > 200)
+            {
+                Speed -= new TimeSpan(0, 0, 0, 0, 200);
+            }
+        }
+
+        /// <summary>
+        /// Takes care of having the rest of the body of the snake
+        /// follow its head
+        /// </summary>
+        /// <param name="destination">Last position of the head before it moved</param>
         public void Propogate(Vector destination)
         {
             Vector currentPosition;
@@ -44,9 +63,18 @@ namespace Snake
             }
         }
 
-        public void Move()
+        /// <summary>
+        /// Reads NextMove;
+        /// Sets destionationDirection based on the LastDirection
+        /// snake was heading in;
+        /// Unassigns NextMove;
+        /// Moves the head;
+        /// Sets the new LastDirection;
+        /// Calls Propogate() to have the rest of the body follow;
+        /// </summary>
+        public void Move(bool eat = false)
         {
-            Vector currentPosition = new Vector(Head.X, Head.Y);
+            Vector currentPosition = new Vector(Head.X, Head.Y, Body);
 
             Directions destinationDirection = LastDirection;
 
@@ -91,15 +119,18 @@ namespace Snake
                 }
             }
 
-            NextMove = Command.Unassigned;
-            if (Speed.TotalMilliseconds > 200)
-            {
-                Speed -= new TimeSpan(0, 0, 0, 0, 200);
-            }
+            NextMove = Command.Unassigned;         
 
-            Head.Add(DirectionToVector[destinationDirection]);
+            if(eat)
+            {
+                Eat(destinationDirection);
+            }
+            else
+            {
+                Head.Add(DirectionToVector[destinationDirection]);
+                Propogate(currentPosition);
+            }
             LastDirection = destinationDirection;
-            Propogate(currentPosition);
         }
     }
 }

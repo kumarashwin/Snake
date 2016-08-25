@@ -27,14 +27,27 @@ namespace Snake
     {
         static void Main(string[] args)
         {
-            World world = new World(30, 20);
-            Snake snake = new Snake(new Vector(3, 3), Directions.East);
+            World world = new World(50, 20);
+            Snake snake = new Snake(new Vector(10, 10));
+
+            int count = 0;
+            bool eat = true;
+            
 
             while (true)
             {
                 world.Render(snake);
                 snake.ProcessCommands();
-                snake.Move();
+                snake.Move(eat);
+
+                if(count > 4)
+                {
+                    eat = false;
+                }
+                else
+                {
+                    count++;
+                }
             }
         }
 
