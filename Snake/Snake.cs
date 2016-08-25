@@ -78,46 +78,32 @@ namespace Snake
         public void Destination(out Vector destination)
         {
             Directions destinationDirection = LastDirection;
-
-            if (NextMove == Command.Left)
+            switch (NextMove)
             {
-                switch (LastDirection)
-                {
-                    case Directions.North:
+                case Command.Left:
+                    if(LastDirection == Directions.North || LastDirection == Directions.South)
+                    {
                         destinationDirection = Directions.West;
-                        break;
-                    case Directions.South:
+                    }
+                    break;
+                case Command.Right:
+                    if (LastDirection == Directions.North || LastDirection == Directions.South)
+                    {
                         destinationDirection = Directions.East;
-                        break;
-                    case Directions.East:
+                    }
+                    break;
+                case Command.Up:
+                    if (LastDirection == Directions.East || LastDirection == Directions.West)
+                    {
                         destinationDirection = Directions.North;
-                        break;
-                    case Directions.West:
+                    }
+                    break;
+                case Command.Down:
+                    if (LastDirection == Directions.East || LastDirection == Directions.West)
+                    {
                         destinationDirection = Directions.South;
-                        break;
-                    default:
-                        break;
-                }
-            }
-            else if (NextMove == Command.Right)
-            {
-                switch (LastDirection)
-                {
-                    case Directions.North:
-                        destinationDirection = Directions.East;
-                        break;
-                    case Directions.South:
-                        destinationDirection = Directions.West;
-                        break;
-                    case Directions.East:
-                        destinationDirection = Directions.South;
-                        break;
-                    case Directions.West:
-                        destinationDirection = Directions.North;
-                        break;
-                    default:
-                        break;
-                }
+                    }
+                    break;
             }
 
             NextMove = Command.Unassigned;
@@ -175,6 +161,12 @@ namespace Snake
                             break;
                         case ConsoleKey.RightArrow:
                             NextMove = Command.Right;
+                            break;
+                        case ConsoleKey.UpArrow:
+                            NextMove = Command.Up;
+                            break;
+                        case ConsoleKey.DownArrow:
+                            NextMove = Command.Down;
                             break;
                     }
                 }

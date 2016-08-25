@@ -19,6 +19,8 @@ namespace Snake
     {
         Left,
         Right,
+        Up,
+        Down,
         Straight,
         Unassigned
     }

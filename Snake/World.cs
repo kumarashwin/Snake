@@ -81,7 +81,7 @@ namespace Snake
             Grid[Food.X, Food.Y].Value = "+";
 
             Console.WriteLine(this.ToString());
-            Console.Write("\n    Controls: LEFT to turn left - RIGHT to turn right  ");
+            Console.Write("\n    Controls: Use direction keys to change direction");
         }
 
         private void CreateGrid()
