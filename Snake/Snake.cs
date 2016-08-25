@@ -25,13 +25,15 @@ namespace Snake
                 { Directions.West, new Vector(-1, 0) }};
         }
 
-        public Snake(Vector vector, Directions startDirection = Directions.South)
+        public Snake(Vector vector,
+                     Directions startDirection = Directions.South,
+                     int speed = 800)
         {
             vector.Value = "O";
             Parts = new List<Vector>() { vector };
             LastDirection = startDirection;
             NextMove = Command.Unassigned;
-            Speed = new TimeSpan(0, 0, 0, 0, 2000);
+            Speed = new TimeSpan(0, 0, 0, 0, speed);
         }
 
         public void Eat(Vector destination)
@@ -41,9 +43,10 @@ namespace Snake
 
             Parts.Insert(0, newHead);
 
-            if (Speed.TotalMilliseconds > 200)
+            if (Speed.TotalMilliseconds > 80)
             {
-                Speed -= new TimeSpan(0, 0, 0, 0, 200);
+                int newMilliseconds = (int)Math.Floor(Speed.TotalMilliseconds - (Speed.TotalMilliseconds * 0.15));
+                Speed = new TimeSpan(0, 0, 0, 0, newMilliseconds);
             }
         }
 

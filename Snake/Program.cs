@@ -25,42 +25,84 @@ namespace Snake
 
     static class Program
     {
+
+        //TODO: Fix Victory condition
         static void Main(string[] args)
         {
-            World world = new World(50, 20);
-            Snake snake = new Snake(new Vector(10, 10));
+            bool repeat;
+            do
+            {
+                RunGame(out repeat);
+            } while (repeat);
+        }
 
-            int count = 0;
+        private static void RunGame(out bool repeat)
+        {
+            World world = new World(20, 10);
+            Snake snake = new Snake(new Vector(world.Width / 2, world.Height / 2), speed: 800);
+            Vector destination;
             bool eat = true;
             bool collision = false;
-            Vector destination;
+            bool victory = false;
 
             while (true)
             {
-                world.Render(snake);
+                world.Render(snake, eat);
                 snake.ProcessCommands();
                 snake.Destination(out destination);
                 world.CheckDestination(destination, out collision, out eat);
-
+                
                 if (collision)
                 {
                     break;
                 }
 
-                //Temporary
-                if (count < 4)
+                if (world.Victory())
                 {
-                    eat = true;
+                    victory = true;
+                    break;
                 }
 
                 snake.Act(destination, eat);
-                count++;
-            }
+            }         
 
-            Console.Clear();
-            Console.WriteLine("You collided with something!");
-            Console.Write("Press any key to exit: ");
-            Console.ReadKey();
+            string result = "\n\n\n\n          ";
+            
+            if (victory)
+            {
+                result = result + "Holy shit, you won!\n" + result.Remove(0, 8) + "Press 'q' to exit. Press 'r' to retry: ";
+            }
+            else
+            {
+                result = result + "You collided with something!\n" + result.Remove(0, 8) + "Press 'q' to exit. Press 'r' to retry: ";
+            }          
+
+            ConsoleKey key = new ConsoleKey();
+            int dots = 0;
+            do
+            {
+                while(dots > 0)
+                {
+                    Thread.Sleep(400);
+                    Console.Write(" .");
+                    dots--;
+                }
+                dots = 4;
+
+                Console.Clear();
+                Console.Write(result);
+
+                key = Console.ReadKey(true).Key;
+            } while (!(key == ConsoleKey.Q || key == ConsoleKey.R));
+
+            if (key == ConsoleKey.R)
+            {
+                repeat = true;
+            }
+            else
+            {
+                repeat = false;
+            }
         }
     }
 }
